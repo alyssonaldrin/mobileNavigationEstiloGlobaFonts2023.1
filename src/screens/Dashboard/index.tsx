@@ -1,21 +1,23 @@
 import { FlatList, Image, ScrollView, Text, View } from "react-native";
-import { AntDesign } from '@expo/vector-icons'; 
+import { AntDesign } from "@expo/vector-icons";
 
 import { ResumeCard } from "../../components/ResumeCard";
 
-import {transactionsArray} from '../../data/transactions';
+import { transactionsArray } from "../../data/transactions";
 
-import {styles} from './styles';
+import { styles } from "./styles";
+import { TransactionCard } from "../../components/TransactionCard";
+import { NavBar } from "../../components/NavBar";
 
-export function Dashboard(){
+export function Dashboard() {
   return (
     <View style={styles.container}>
       <View style={styles.containerHeader}>
         <View style={styles.containerHeaderIcone}>
           <View style={styles.containerUser}>
-            <Image 
+            <Image
               style={styles.image}
-              source={{uri:'https://github.com/fabioabrantes.png'}}
+              source={{ uri: "https://github.com/fabioabrantes.png" }}
             />
 
             <View style={styles.containerGreeting}>
@@ -30,11 +32,11 @@ export function Dashboard(){
         </View>
       </View>
 
-      <ScrollView 
+      <ScrollView
         style={styles.resumeCards}
         horizontal
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{paddingHorizontal:10}}
+        contentContainerStyle={{ paddingHorizontal: 10 }}
       >
         <ResumeCard
           type="entry"
@@ -63,20 +65,25 @@ export function Dashboard(){
 
       <View style={styles.transactionsListContainer}>
         <Text style={styles.titleList}>Listagem</Text>
-        
-        <FlatList 
+
+        <FlatList
           data={transactionsArray}
           showsVerticalScrollIndicator={false}
-          keyExtractor={(item)=>item.id}
-          renderItem={()=>{
-            return (<></>)
-          }}
-          ListEmptyComponent={()=>{
-            return (<></>)
-          }}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <TransactionCard
+              key={item.id}
+              type={item.type}
+              title={item.title}
+              amount={item.amount}
+              category={item.category}
+              date={item.date}
+            />
+          )}
+          ListEmptyComponent={() => <>Não há transações</>}
         />
-
       </View>
+      <NavBar currentPage="dashboard" />
     </View>
-  )
+  );
 }
